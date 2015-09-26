@@ -295,7 +295,7 @@ SKPaymentTransactionObserver, SKProductsRequestDelegate> {
     
     [SVProgressHUD dismiss];
     
-    NSString * productIdentifier = transaction.payment.productIdentifier;
+    NSString * productIdentifier = [[NSString alloc] initWithData:transaction.transactionReceipt encoding:NSUTF8StringEncoding];
     NSString * receipt = [[productIdentifier dataUsingEncoding:NSUTF8StringEncoding] base64EncodedString];
     
     if ([productIdentifier length] > 0) {
