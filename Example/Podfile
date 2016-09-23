@@ -1,11 +1,7 @@
 use_frameworks!
 
 target 'APKit_Example' do
-  pod 'APKit', :path => '../'
-
-  target 'APKit_Tests' do
-    inherit! :search_paths
-
     
-  end
+  pod 'APKit', :path => '../'
+  
 end

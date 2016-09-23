@@ -1,0 +1,16 @@
+PODS:
+  - APKit (0.1.0)
+
+DEPENDENCIES:
+  - APKit (from `../`)
+
+EXTERNAL SOURCES:
+  APKit:
+    :path: ../
+
+SPEC CHECKSUMS:
+  APKit: 861bd3a921e9ccf84f13dfcfa99808a30c1cbb41
+
+PODFILE CHECKSUM: e9a7d058e572f0a4bcabcee9576e68171528dca3
+
+COCOAPODS: 1.1.0.rc.2

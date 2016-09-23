@@ -22,7 +22,7 @@ pod "APKit"
 
 ## Author
 
-Dylan, 3664132@163.com
+Dylan, dylan@china.com
 
 ## License
 

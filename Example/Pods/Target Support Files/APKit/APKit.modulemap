@@ -1,0 +1,6 @@
+framework module APKit {
+  umbrella header "APKit-umbrella.h"
+
+  export *
+  module * { export * }
+}

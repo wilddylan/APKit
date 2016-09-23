@@ -8,11 +8,17 @@
 
 #import "APAppDelegate.h"
 
+#import <StoreKit/StoreKit.h>
+#import <APKit/APKit.h>
+
 @implementation APAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
+#warning Add transaction observer
+    [[SKPaymentQueue defaultQueue] addTransactionObserver:[APStoreObserver sharedInstance]];
+    
     return YES;
 }
 
@@ -41,6 +47,8 @@
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+#warning Remove transaction observer
+    [[SKPaymentQueue defaultQueue] removeTransactionObserver: [APStoreObserver sharedInstance]];
 }
 
 @end
