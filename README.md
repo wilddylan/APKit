@@ -1,5 +1,6 @@
 ##APKit
 
+
 前言: 应用内支付（IAP）一直是苹果**尽力强迫**大家使用的在线支付方式, 用以获利。
 
 直接进入主题, 如何将IAP继承至自己的应用中。
@@ -278,7 +279,7 @@ if ( productArray.count > 0 ) {
 
 凭证验证：
 
-在macOS中，凭证有可能丢失，所以需要使用`SKReceiptRefreshRequest`刷新凭证，这个需要开发者自己在外部处理，通过对以下
+在macOS中，凭证有可能丢失
 
 ```objective-c
 NSURL *localReceiptURL = [[NSBundle mainBundle] appStoreReceiptURL];
@@ -286,7 +287,9 @@ NSURL *localReceiptURL = [[NSBundle mainBundle] appStoreReceiptURL];
 
 URL是否存在的判断，在文章准备工作的步骤5中有提到过。
 
-目前，在iPhone非越狱设备下，我没有碰到过凭证丢失的情况（我们直接抛弃了越狱用户）。所以文中不做赘述，想详细了解的小白可以[阅读SKReceiptRefreshRequest官方文档](https://developer.apple.com/reference/storekit/skreceiptrefreshrequest)。
+目前，在iPhone非越狱设备下，我没有碰到过凭证丢失的情况（我们直接抛弃了越狱用户）。所以文中不做赘述。
+
+凭证校验出错可以使用`SKReceiptRefreshRequest`刷新，[阅读SKReceiptRefreshRequest官方文档](https://developer.apple.com/reference/storekit/skreceiptrefreshrequest)。
 
 获得凭证：
 
@@ -308,5 +311,3 @@ NSString *receiptStr = [data base64EncodedStringWithOptions:NSDataBase64Encoding
 至此，IAP开发结束了，感谢大家的阅读。
 
 2016-9-23 @dylan.
-
-MIT.
