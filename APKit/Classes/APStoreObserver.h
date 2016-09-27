@@ -15,6 +15,7 @@ extern NSString * const APPurchaseNotification;
 @interface APStoreObserver : NSObject <SKPaymentTransactionObserver>
 
 typedef NS_ENUM(NSInteger, APPurchaseStatus) {
+#pragma mark purchase
     // Indicates that the purchase was in processing
     APPurchasing,
     // Indicates that the purchase was deferred
@@ -25,12 +26,24 @@ typedef NS_ENUM(NSInteger, APPurchaseStatus) {
     APPurchaseFailed,
     // Indicates that the purchase was successful
     APPurchaseSucceeded,
+#pragma mark restore
     // Indicates that restoring products was cancelled
     APRestoredCancelled,
     // Indicates that restoring products was unsuccessful
     APRestoredFailed,
     // Indicates that restoring products was successful
     APRestoredSucceeded,
+#pragma mark download content
+    // Indicates that downloading a hosted content has started
+    APDownloadStarted,
+    // Indicates that a hosted content is currently being downloaded
+    APDownloadInProgress,
+    // Indicates that downloading a hosted content failed
+    APDownloadFailed,
+    // Indicates that a hosted content was successfully downloaded
+    APDownloadSucceeded,
+    // Indicates that a hosted content downloaded was paused
+    APDownloadPaused
 };
 
 @property ( nonatomic ) APPurchaseStatus status;
@@ -42,10 +55,13 @@ typedef NS_ENUM(NSInteger, APPurchaseStatus) {
 @property ( nonatomic, strong ) NSMutableArray *productsRestored;
 
 // Keep track of the purchased/restored product's identifier
-@property (nonatomic, copy) NSString *purchasedID;
+@property ( nonatomic, copy ) NSString *purchasedID;
 
 // Indicates the cause of the purchased/restored product failure
 @property ( nonatomic, copy ) NSString *errorMessage;
+
+// The host content download progress
+@property ( nonatomic) float downloadProgress;
 
 -(BOOL)hasPurchasedProducts;
 -(BOOL)hasRestoredProducts;
@@ -57,5 +73,8 @@ typedef NS_ENUM(NSInteger, APPurchaseStatus) {
 
 // Implement the restoration of previously completed purchases
 -(void)restore;
+
+// Indicates the store observer enabled log. Default is YES.
+@property ( nonatomic, assign ) Boolean logEnabled;
 
 @end

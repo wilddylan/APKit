@@ -27,6 +27,7 @@ NSString * const APPurchaseNotification = @"APPurchaseNotification";
     if ( self ) {
         _productsPurchased  = [[NSMutableArray alloc] initWithCapacity:0];
         _productsRestored   = [[NSMutableArray alloc] initWithCapacity:0];
+        _logEnabled = YES;
     }
     return self;
 }
@@ -80,8 +81,12 @@ NSString * const APPurchaseNotification = @"APPurchaseNotification";
                 // The purchase was successful
                 self.purchasedID = transaction.payment.productIdentifier;
                 [self.productsPurchased addObject:transaction];
-                
-                [self completeTransaction:transaction forStatus:APPurchaseSucceeded];
+                // Check is have host content or not.
+                if(transaction.downloads && transaction.downloads.count > 0) {
+                    [self completeTransaction:transaction forStatus:APDownloadStarted];
+                } else {
+                    [self completeTransaction:transaction forStatus:APPurchaseSucceeded];
+                }
                 break;
             }
             case SKPaymentTransactionStateRestored: {
@@ -89,7 +94,11 @@ NSString * const APPurchaseNotification = @"APPurchaseNotification";
                 self.purchasedID = transaction.payment.productIdentifier;
                 [self.productsRestored addObject:transaction];
                 
-                [self completeTransaction:transaction forStatus:APRestoredSucceeded];
+                if(transaction.downloads && transaction.downloads.count > 0) {
+                    [self completeTransaction:transaction forStatus:APDownloadStarted];
+                } else {
+                    [self completeTransaction:transaction forStatus:APRestoredSucceeded];
+                }
                 break;
             }
             case SKPaymentTransactionStateFailed: {
@@ -108,7 +117,9 @@ NSString * const APPurchaseNotification = @"APPurchaseNotification";
 - (void)paymentQueue: (SKPaymentQueue *)queue
  removedTransactions: (NSArray *)transactions {
     for(SKPaymentTransaction * transaction in transactions) {
-        NSLog(@"%@ was removed from the payment queue.", transaction.payment.productIdentifier);
+        if ( _logEnabled ) {
+            NSLog(@"%@ was removed from the payment queue.", transaction.payment.productIdentifier);
+        }
     }
 }
 
@@ -125,7 +136,64 @@ NSString * const APPurchaseNotification = @"APPurchaseNotification";
 
 // Called when all restorable transactions have been processed by the payment queue
 - (void)paymentQueueRestoreCompletedTransactionsFinished:(SKPaymentQueue *)queue {
-    NSLog(@"All restorable transactions have been processed by the payment queue.");
+    if ( _logEnabled ) {
+        NSLog(@"All restorable transactions have been processed by the payment queue.");
+    }
+}
+
+// Called when the payment queue has downloaded content
+- (void)paymentQueue:(SKPaymentQueue *)queue updatedDownloads:(NSArray *)downloads {
+    for (SKDownload* download in downloads) {
+        switch (download.downloadState) {
+            // The content is being downloaded. Let's provide a download progress to the user
+            case SKDownloadStateActive: {
+                self.status = APDownloadInProgress;
+                self.purchasedID = download.transaction.payment.productIdentifier;
+                self.downloadProgress = download.progress*100;
+                [[NSNotificationCenter defaultCenter] postNotificationName:APPurchaseNotification object:self];
+                break;
+            }
+            case SKDownloadStateCancelled: {
+                // StoreKit saves your downloaded content in the Caches directory. Let's remove it
+                // before finishing the transaction.
+                [[NSFileManager defaultManager] removeItemAtURL:download.contentURL error:nil];
+                [self finishDownloadTransaction:download.transaction];
+                break;
+            }
+            case SKDownloadStateFailed: {
+                // If a download fails, remove it from the Caches, then finish the transaction.
+                // It is recommended to retry downloading the content in this case.
+                [[NSFileManager defaultManager] removeItemAtURL:download.contentURL error:nil];
+                [self finishDownloadTransaction:download.transaction];
+                break;
+            }
+            case SKDownloadStatePaused: {
+                if ( _logEnabled ) {
+                    NSLog(@"Download was paused");
+                }
+                self.status = APDownloadPaused;
+                [[NSNotificationCenter defaultCenter] postNotificationName:APPurchaseNotification object:self];
+                break;
+            }
+            case SKDownloadStateFinished: {
+                // Download is complete. StoreKit saves the downloaded content in the Caches directory.
+                if ( _logEnabled ) {
+                    NSLog(@"Location of downloaded file %@",download.contentURL);
+                }
+                [self finishDownloadTransaction:download.transaction];
+                break;
+            }
+            case SKDownloadStateWaiting: {
+                if ( _logEnabled ) {
+                    NSLog(@"Download Waiting");
+                }
+                [[SKPaymentQueue defaultQueue] startDownloads:@[download]];
+                break;
+            }
+            default:
+                break;
+        }
+    }
 }
 
 #pragma mark - Complete transaction
@@ -135,11 +203,65 @@ NSString * const APPurchaseNotification = @"APPurchaseNotification";
 -(void)completeTransaction: (SKPaymentTransaction *)transaction
                  forStatus: (APPurchaseStatus)status {
     self.status = status;
-    //Do not send any notifications when the user cancels the purchase
+    // In Apple's Demo, they said: `Do not notify the user when purchase cancelled.`
     if (transaction.error.code == SKErrorPaymentCancelled) {
         self.status = APPurchaseCancelled;
     }
-    // Remove the transaction from the queue for purchased and restored statuses
+    // Notify the user
+    [[NSNotificationCenter defaultCenter] postNotificationName:APPurchaseNotification object:self];
+    
+    if (status == APDownloadStarted) {
+        // The purchased product is a hosted one, let's download its content
+        [[SKPaymentQueue defaultQueue] startDownloads:transaction.downloads];
+    } else {
+        // Remove the transaction from the queue for purchased and restored statuses
+        [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
+    }
+}
+
+#pragma mark - Handle download transaction
+
+- (void)finishDownloadTransaction:(SKPaymentTransaction*)transaction {
+    //allAssetsDownloaded indicates whether all content associated with the transaction were downloaded.
+    BOOL allAssetsDownloaded = YES;
+    
+    for (SKDownload* download in transaction.downloads) {
+        if (download.downloadState != SKDownloadStateCancelled &&
+            download.downloadState != SKDownloadStateFailed &&
+            download.downloadState != SKDownloadStateFinished ) {
+            //Let's break. We found an ongoing download. Therefore, there are still pending downloads.
+            allAssetsDownloaded = NO;
+            break;
+        }
+    }
+    
+    // Finish the transaction and post a APDownloadSucceeded notification if all downloads are complete
+    if (allAssetsDownloaded) {
+        self.status = APDownloadSucceeded;
+    } else {
+        self.status = APDownloadFailed;
+    }
+    
+    // Notify the user download state.
+    [[NSNotificationCenter defaultCenter] postNotificationName:APPurchaseNotification object:self];
+    
+    if ([self.productsRestored containsObject:transaction]) {
+        // Restored succeed but download failure or succeed.
+        self.status = APRestoredSucceeded;
+    }
+    if ([self.productsPurchased containsObject:transaction]) {
+        // Payed succeed but download failure or succeed.
+        self.status = APPurchaseSucceeded;
+    }
+    
+    // Before do it, we see what apple say:
+    // A download is complete if its state is SKDownloadStateCancelled, SKDownloadStateFailed, or SKDownloadStateFinished
+    // and pending, otherwise. We finish a transaction if and only if all its associated downloads are complete.
+    // For the SKDownloadStateFailed case, it is recommended to try downloading the content again before finishing the transaction.
+    
+    // They said `if and only if all its associated downloads are complete, SKDownloadStateFailed, it is recommended to try downloading the content again before finishing the transaction.`, but i think, should finish it! Control the retry and retry timeout should not in `APKit`, developer who use this framework should
+    // check if or not have download contents and download state when receive the purchase or restore notification, APDownloadState in `APKit` only for help knowns the first time
+    // content downloads.
     [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
     [[NSNotificationCenter defaultCenter] postNotificationName:APPurchaseNotification object:self];
 }
