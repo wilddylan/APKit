@@ -18,6 +18,6 @@
 
 // Create a model object
 -(instancetype)initWithName: (NSString *)name
-                   elements: (NSArray *)elements NS_DESIGNATED_INITIALIZER;
+									 elements: (NSArray *)elements NS_DESIGNATED_INITIALIZER;
 
 @end
