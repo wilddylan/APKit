@@ -11,21 +11,21 @@
 @implementation APProduct
 
 -(instancetype)init {
-	self = [self initWithName:nil elements:@[]];
-	if( self ) {
-		
-	}
-	return self;
+  self = [self initWithName:nil elements:@[]];
+  if( self ) {
+
+  }
+  return self;
 }
 
 -(instancetype)initWithName: (NSString *)name
-									 elements: (NSArray *)elements {
-	self = [super init];
-	if( self ) {
-		_name = [name copy];
-		_elements = elements;
-	}
-	return self;
+                   elements: (NSArray *)elements {
+  self = [super init];
+  if( self ) {
+    _name = [name copy];
+    _elements = elements;
+  }
+  return self;
 }
-
-@end
+  
+  @end
