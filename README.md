@@ -2,12 +2,6 @@
 
 [![MIT Licence](https://badges.frapsoft.com/os/mit/mit.svg?v=103)](https://opensource.org/licenses/mit-license.php)
 
-###### Release note
-
-- 0.3.0: Clean workspace, format code with 2 indent.
-- 0.2.0: Download Hosted content.
-- 0.1.0: basic features develope, initialized repo.
-
 ###### How to use
 
 The under code block only for OS X:
@@ -18,10 +12,10 @@ if ( ![NSData dataWithContentsOfURL:[NSBundle mainBundle].appStoreReceiptURL] ) 
 }
 ```
 
-Use in Objective-C or swift:
+Can be used in Objective-C or swift:
 
 ```ruby
-pod 'APKit', '~> 0.3.0'
+pod 'APKit', '~> 0.3.1'
 ```
 
 run command `pod update --no-repo-update`.
@@ -176,6 +170,12 @@ NSString *receiptStr = [data base64EncodedStringWithOptions:NSDataBase64Encoding
 send `receiptStr`to your server.
 
 About local receipt verify [local verify your receipt](https://github.com/WildDylan/iap-local-receipt).
+
+###### Release note
+
+- 0.3.0, 0.3.1: Clean workspace, format code with 2 indent.
+- 0.2.0: Download Hosted content.
+- 0.1.0: basic features develope, initialized repo.
 
 ###### License
 

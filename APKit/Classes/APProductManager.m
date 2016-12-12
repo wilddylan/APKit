@@ -14,7 +14,7 @@
 NSString * const APProductRequestNotification = @"APProductRequestNotification";
 
 @interface APProductManager () <SKRequestDelegate, SKProductsRequestDelegate>
-  @end
+@end
 
 @implementation APProductManager
 
@@ -40,7 +40,7 @@ NSString * const APProductRequestNotification = @"APProductRequestNotification";
 
 #pragma mark - Request information
 
-  // Fetch information about your products from the iTunes Connect
+// Fetch information about your products from the iTunes Connect
 - (void)fetchProductInformationForIds: (NSArray *)productIds {
   NSAssert(productIds, @"Need product ids.");
   if ( ![SKPaymentQueue canMakePayments] ) {
@@ -111,5 +111,5 @@ NSString * const APProductRequestNotification = @"APProductRequestNotification";
   }
   return productTitle;
 }
-  
-  @end
+
+@end

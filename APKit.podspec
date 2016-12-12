@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'APKit'
-  s.version          = '0.3.0'
+  s.version          = '0.3.1'
   s.summary          = 'APKit, for IAP easier.'
 
 # This description is used to generate tags and improve search results.

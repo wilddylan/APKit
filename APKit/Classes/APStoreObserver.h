@@ -18,34 +18,34 @@ extern NSString * const APPurchaseNotification;
 // 支付的状态
 typedef NS_ENUM(NSInteger, APPurchaseStatus) {
 #pragma mark purchase
-	// Indicates that the purchase was in processing
-	APPurchasing,
-	// Indicates that the purchase was deferred
-	APPurchaseDeferred,
-	// Indicates that the purchase was cancelled
-	APPurchaseCancelled,
-	// Indicates that the purchase was unsuccessful
-	APPurchaseFailed,
-	// Indicates that the purchase was successful
-	APPurchaseSucceeded,
+  // Indicates that the purchase was in processing
+  APPurchasing,
+  // Indicates that the purchase was deferred
+  APPurchaseDeferred,
+  // Indicates that the purchase was cancelled
+  APPurchaseCancelled,
+  // Indicates that the purchase was unsuccessful
+  APPurchaseFailed,
+  // Indicates that the purchase was successful
+  APPurchaseSucceeded,
 #pragma mark restore
-	// Indicates that restoring products was cancelled
-	APRestoredCancelled,
-	// Indicates that restoring products was unsuccessful
-	APRestoredFailed,
-	// Indicates that restoring products was successful
-	APRestoredSucceeded,
+  // Indicates that restoring products was cancelled
+  APRestoredCancelled,
+  // Indicates that restoring products was unsuccessful
+  APRestoredFailed,
+  // Indicates that restoring products was successful
+  APRestoredSucceeded,
 #pragma mark download content
-	// Indicates that downloading a hosted content has started
-	APDownloadStarted,
-	// Indicates that a hosted content is currently being downloaded
-	APDownloadInProgress,
-	// Indicates that downloading a hosted content failed
-	APDownloadFailed,
-	// Indicates that a hosted content was successfully downloaded
-	APDownloadSucceeded,
-	// Indicates that a hosted content downloaded was paused
-	APDownloadPaused
+  // Indicates that downloading a hosted content has started
+  APDownloadStarted,
+  // Indicates that a hosted content is currently being downloaded
+  APDownloadInProgress,
+  // Indicates that downloading a hosted content failed
+  APDownloadFailed,
+  // Indicates that a hosted content was successfully downloaded
+  APDownloadSucceeded,
+  // Indicates that a hosted content downloaded was paused
+  APDownloadPaused
 };
 
 @property ( nonatomic ) APPurchaseStatus status;

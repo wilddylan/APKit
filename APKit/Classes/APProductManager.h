@@ -16,12 +16,12 @@ extern NSString * const APProductRequestNotification;
 // Product request indicates
 // 商品请求的状态，开始-成功-失败
 typedef NS_ENUM(NSInteger, APProductRequestStatus) {
-	// Indicates that start request the product
-	APProductRequestStart,
-	// Returns valid products and invalid product identifiers
-	APProductRequestSuccess,
-	// Indicates that the product request fail with error
-	APProductRequestFailure
+  // Indicates that start request the product
+  APProductRequestStart,
+  // Returns valid products and invalid product identifiers
+  APProductRequestSuccess,
+  // Indicates that the product request fail with error
+  APProductRequestFailure
 };
 
 // Provide the status of the product request
