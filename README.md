@@ -177,6 +177,10 @@ About local receipt verify [local verify your receipt](https://github.com/WildDy
 - 0.2.0: Download Hosted content.
 - 0.1.0: basic features develope, initialized repo.
 
+###### ReadMe in cdn
+
+[APKit introduction](http://www.devdylan.cn/APKit/)
+
 ###### License
 
 MIT. 
