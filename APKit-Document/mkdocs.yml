@@ -1,0 +1,11 @@
+site_name: APKit-document
+site_description: IAP Framework docs.
+pages:
+  - Home: index.md
+  # - About: about.md
+theme: cinder
+repo_url: https://github.com/WildDylan/APKit
+repo_name: GitHub
+site_author: dylan
+copyright: dylan-2016-12
+docs_dir: docs
