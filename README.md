@@ -179,7 +179,7 @@ About local receipt verify [local verify your receipt](https://github.com/WildDy
 
 ###### ReadMe in cdn
 
-[APKit introduction](http://www.devdylan.cn/APKit/)
+[APKit introduction](http://blog.devdylan.cn/APKit/)
 
 ###### License
 
