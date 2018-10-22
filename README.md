@@ -1,6 +1,6 @@
 ##APKit
 
-[![MIT Licence](https://badges.frapsoft.com/os/mit/mit.svg?v=103)](https://opensource.org/licenses/mit-license.php)
+[![MIT Licence](https://badges.frapsoft.com/os/mit/mit.svg?v=103)](https://opensource.org/licenses/mit-license.php) [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FWildDylan%2FAPKit.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2FWildDylan%2FAPKit?ref=badge_shield)
 
 ###### How to use
 
