@@ -188,3 +188,5 @@ or use [go-iap-verify-receipt](https://github.com/awa/go-iap)
 ###### License
 
 MIT. 
+
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FWildDylan%2FAPKit.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2FWildDylan%2FAPKit?ref=badge_large)
