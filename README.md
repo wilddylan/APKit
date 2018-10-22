@@ -171,7 +171,11 @@ send `receiptStr`to your server.
 
 About local receipt verify [local verify your receipt](https://github.com/WildDylan/iap-local-receipt).
 
+or use [go-iap-verify-receipt](https://github.com/awa/go-iap)
+
 ###### Release note
+
+- 0.3.2: Update comments and add some documents, update license, remove unused files and folders.
 
 - 0.3.0, 0.3.1: Clean workspace, format code with 2 indent.
 - 0.2.0: Download Hosted content.
