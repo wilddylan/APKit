@@ -21,7 +21,7 @@
   if ( self ) {
 
     /*
-     * Product request result notification, `APProductRequestNotification`
+     * product request result notification, `APProductRequestNotification`
      */
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(handleProductRequestNotification:)
@@ -29,7 +29,7 @@
                                                object:[APProductManager sharedInstance]];
 
     /*
-     * Purchase result notification, `APPurchaseNotification`
+     * purchase result notification, `APPurchaseNotification`
      */
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(handlePurchasesNotification:)
@@ -45,7 +45,7 @@
   // Do any additional setup after loading the view, typically from a nib.
 
   /*
-   * Product identifier which you create in itunes-connect.
+   * product identifier which you create in itunes-connect.
    */
   NSArray *productIdentifiers = @[
                                   @"1994101101",
@@ -54,7 +54,7 @@
                                   ];
 
   /*
-   * Get product shared instance
+   * get product shared instance
    */
   APProductManager *productManager = [APProductManager sharedInstance];
   [productManager
@@ -72,7 +72,7 @@
     NSLog(@"VALID: %@", productRequestNotification.availableProducts);
     NSLog(@"INVALID: %@", productRequestNotification.invalidProductIds);
 
-    NSLog(@"Buy 1994101101 Wait 3 second...");
+    NSLog(@"Auto buy 1994101101 After 3 seconds ...");
 
     dispatch_time_t sleepTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC));
     dispatch_after(sleepTime, dispatch_get_main_queue(), ^{
@@ -82,7 +82,7 @@
         SKProduct *product_2 = productArray.lastObject;
 
         /*
-         * Get purchase shared instance
+         * get purchase shared instance
          */
         APStoreObserver *storeObs = [APStoreObserver sharedInstance];
 
@@ -100,10 +100,10 @@
   APPurchaseStatus status = (APPurchaseStatus)purchasesNotification.status;
 
   switch ( status ) {
-#pragma - Purchase
+// Purchase Notification
     case APPurchaseSucceeded: {
       NSLog(@"Purchase-Success: %@", purchasesNotification.productsPurchased);
-      // Verify receipts step.
+      // !!! Verify receipts step.
       [self verifyReceipts];
       break;
     }
@@ -115,7 +115,7 @@
       NSLog(@"Purchase-Cancelled!");
       break;
     }
-#pragma - Restore
+// Restore Notification
     case APRestoredSucceeded: {
       NSLog(@"Restored-Success: %@", purchasesNotification.productsRestored);
       break;
@@ -128,7 +128,7 @@
       NSLog(@"Restored-Cancelled!");
       break;
     }
-#pragma - Download
+// Download content
 
     default:
       break;

@@ -47,11 +47,11 @@ typedef NS_ENUM(NSInteger, APProductRequestStatus) {
 + (APProductManager *)sharedInstance;
 
 // Query the iTunes Connect about the given product identifiers
-// 请求这些商品Id，请求成功后，在可使用的商品数组或者不可使用的商品数组种
+// 请求这些商品 Id（商品 ID 来自可服务端或者硬编码），请求成功后，在可使用的商品数组或者不可使用的商品数组种
 -(void)fetchProductInformationForIds: (NSArray *)productIds;
 
 // Return the product's title matching a given product identifier
-// 通过商品Id获得商品标题
+// 通过商品 Id 获得商品标题
 -(NSString *)titleMatchingProductIdentifier: (NSString *)identifier;
 
 @end

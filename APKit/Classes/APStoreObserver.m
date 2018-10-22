@@ -149,7 +149,7 @@ NSString * const APPurchaseNotification = @"APPurchaseNotification";
       case SKDownloadStateActive: {
         self.status = APDownloadInProgress;
         self.purchasedID = download.transaction.payment.productIdentifier;
-        self.downloadProgress = download.progress*100;
+        self.downloadProgress = download.progress * 100;
         [[NSNotificationCenter defaultCenter] postNotificationName:APPurchaseNotification object:self];
         break;
       }

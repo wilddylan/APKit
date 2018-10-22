@@ -8,8 +8,8 @@
 
 Pod::Spec.new do |s|
   s.name             = 'APKit'
-  s.version          = '0.3.1'
-  s.summary          = 'APKit, for IAP easier.'
+  s.version          = '0.3.2'
+  s.summary          = 'APKit, easy for use in app purchase.'
 
 # This description is used to generate tags and improve search results.
 #   * Think: What does it do? Why did you write it? What is the focus?
